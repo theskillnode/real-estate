@@ -1,17 +1,17 @@
 "use client";
+
 import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeFeature, setActiveFeature] = useState(0);
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", interest: "office" });
-  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -22,450 +22,478 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const navLinks = ["About", "Features", "Locations", "Contact"];
+  const isScrolled = scrollY > 80;
 
   const features = [
     {
-      icon: "🏢",
+      icon: "◈",
       title: "Premium Office Spaces",
-      desc: "Class-A office suites with floor-to-ceiling windows, modern amenities, and flexible lease terms tailored to your growth trajectory.",
-      color: "from-amber-400 to-orange-500",
-      stat: "120+",
-      statLabel: "Properties",
+      desc: "Class-A buildings with state-of-the-art amenities, floor-to-ceiling windows, and flexible lease terms tailored to your business.",
+      color: "#C9A84C",
     },
     {
-      icon: "🌐",
-      title: "Strategic Locations",
-      desc: "Prime commercial corridors, downtown districts, and emerging tech hubs — placed where your business visibility matters most.",
-      color: "from-cyan-400 to-blue-500",
-      stat: "15",
-      statLabel: "Districts",
+      icon: "◉",
+      title: "Market Intelligence",
+      desc: "Real-time data analytics, vacancy rates, and pricing trends across TSNshore's commercial corridors — giving you an edge.",
+      color: "#4C9AC9",
     },
     {
-      icon: "📈",
-      title: "Investment Growth",
-      desc: "Data-driven market insights and portfolio management services that maximize your commercial real estate ROI.",
-      color: "from-emerald-400 to-teal-500",
-      stat: "32%",
-      statLabel: "Avg. ROI",
+      icon: "◐",
+      title: "Tenant Representation",
+      desc: "Our dedicated brokers negotiate on your behalf, securing below-market rates and favorable lease concessions.",
+      color: "#C94C7A",
     },
     {
-      icon: "🤝",
-      title: "Expert Advisory",
-      desc: "Decades of Crystalshore market expertise. Our brokers negotiate leases, acquisitions, and exits with surgical precision.",
-      color: "from-violet-400 to-purple-600",
-      stat: "500+",
-      statLabel: "Clients Served",
+      icon: "◑",
+      title: "Portfolio Management",
+      desc: "End-to-end asset management, from acquisition strategy to disposition — maximizing your commercial real estate ROI.",
+      color: "#4CC97A",
     },
   ];
 
-  const locations = [
+  const properties = [
     {
-      name: "Crystalshore Downtown",
-      type: "Financial District",
-      sqft: "2,000 – 50,000 sq ft",
-      price: "From $42/sq ft",
-      tag: "HOT",
-      img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80",
+      name: "The Meridian Tower",
+      type: "Class-A Office",
+      sqft: "42,000",
+      price: "$58/sqft",
+      floors: "12 Floors",
+      available: "Q2 2025",
+      tag: "Premium",
     },
     {
-      name: "Harbor Business Park",
-      type: "Waterfront Campus",
-      sqft: "5,000 – 120,000 sq ft",
-      price: "From $38/sq ft",
-      tag: "NEW",
-      img: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80",
+      name: "Harbor View Plaza",
+      type: "Mixed-Use Commercial",
+      sqft: "28,500",
+      price: "$44/sqft",
+      floors: "8 Floors",
+      available: "Immediate",
+      tag: "Hot",
     },
     {
-      name: "Crystalshore Tech Hub",
-      type: "Innovation District",
-      sqft: "1,000 – 30,000 sq ft",
-      price: "From $35/sq ft",
-      tag: "POPULAR",
-      img: "https://images.unsplash.com/photo-1497366754035-f200968a7f80?w=600&q=80",
+      name: "TSNshore Commons",
+      type: "Creative Campus",
+      sqft: "67,200",
+      price: "$36/sqft",
+      floors: "Campus",
+      available: "Q3 2025",
+      tag: "New",
     },
   ];
 
   const stats = [
-    { value: "18+", label: "Years in Crystalshore" },
-    { value: "$2.4B", label: "Transactions Closed" },
-    { value: "98%", label: "Client Retention" },
-    { value: "340", label: "Active Listings" },
+    { number: "340+", label: "Properties Leased" },
+    { number: "$2.4B", label: "Portfolio Value" },
+    { number: "18yrs", label: "Market Experience" },
+    { number: "97%", label: "Client Retention" },
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
-
   return (
-    <div className="min-h-screen bg-zinc-950 text-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-[#0A0E1A] text-white overflow-x-hidden font-sans">
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
         * { box-sizing: border-box; }
-        body { font-family: 'DM Sans', sans-serif; }
-        .display-font { font-family: 'Playfair Display', serif; }
-        .gradient-text {
-          background: linear-gradient(135deg, #f59e0b, #ef4444, #8b5cf6);
+
+        body { margin: 0; }
+
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+        .font-body { font-family: 'DM Sans', sans-serif; }
+
+        .gold { color: #C9A84C; }
+        .gold-bg { background-color: #C9A84C; }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(40px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+          from { opacity: 0; transform: translateX(-30px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes shimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+
+        @keyframes pulse-gold {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.4); }
+          50% { box-shadow: 0 0 0 12px rgba(201,168,76,0); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+        }
+
+        @keyframes lineGrow {
+          from { width: 0; }
+          to { width: 100%; }
+        }
+
+        .hero-animate { animation: fadeUp 1s ease forwards; }
+        .hero-animate-delay-1 { animation: fadeUp 1s ease 0.2s both; }
+        .hero-animate-delay-2 { animation: fadeUp 1s ease 0.4s both; }
+        .hero-animate-delay-3 { animation: fadeUp 1s ease 0.6s both; }
+
+        .shimmer-text {
+          background: linear-gradient(90deg, #C9A84C 0%, #F5E6A3 40%, #C9A84C 60%, #8B6914 100%);
+          background-size: 200% auto;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
+          animation: shimmer 4s linear infinite;
         }
-        .crystal-gradient {
-          background: linear-gradient(135deg, #0ea5e9, #6366f1, #a855f7);
-        }
+
         .card-hover {
-          transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+          transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .card-hover:hover {
-          transform: translateY(-8px) scale(1.01);
-          box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+          transform: translateY(-8px);
         }
-        .nav-link {
-          position: relative;
-        }
+
         .nav-link::after {
           content: '';
-          position: absolute;
-          bottom: -2px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #f59e0b, #ef4444);
-          transition: width 0.3s ease;
+          display: block;
+          height: 1px;
+          background: #C9A84C;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.3s ease;
         }
-        .nav-link:hover::after { width: 100%; }
-        .hero-particle {
-          position: absolute;
-          border-radius: 50%;
-          opacity: 0.15;
-          animation: float 6s ease-in-out infinite;
+        .nav-link:hover::after {
+          transform: scaleX(1);
         }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
+
+        .feature-tab {
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border-left: 2px solid transparent;
+          padding-left: 20px;
         }
-        @keyframes slideIn {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
+        .feature-tab.active {
+          border-left: 2px solid #C9A84C;
         }
-        .slide-in { animation: slideIn 0.7s ease forwards; }
-        .pulse-ring {
-          animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+
+        .map-dot {
+          animation: pulse-gold 2s ease-in-out infinite;
         }
-        @keyframes pulse-ring {
-          0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245,158,11,0.4); }
-          70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(245,158,11,0); }
-          100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245,158,11,0); }
-        }
-        .location-tag {
-          animation: pulse-ring 2s infinite;
-        }
-        .grid-bg {
-          background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+
+        .floating { animation: float 6s ease-in-out infinite; }
+
+        .bg-grid {
+          background-image: linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px);
           background-size: 60px 60px;
         }
-        .shimmer {
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-          background-size: 200% 100%;
-          animation: shimmer 2.5s infinite;
-        }
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        .counter {
-          background: linear-gradient(135deg, #18181b, #27272a);
+
+        .glass {
+          background: rgba(255,255,255,0.04);
+          backdrop-filter: blur(12px);
           border: 1px solid rgba(255,255,255,0.08);
         }
-        input, textarea, select {
+
+        .glass-gold {
+          background: rgba(201,168,76,0.08);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(201,168,76,0.2);
+        }
+
+        .diagonal-cut {
+          clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .stat-number {
+          font-family: 'Cormorant Garamond', serif;
+          font-weight: 300;
+          font-size: 3.5rem;
+          letter-spacing: -1px;
+        }
+
+        input, textarea {
           background: rgba(255,255,255,0.05) !important;
           border: 1px solid rgba(255,255,255,0.1) !important;
           color: white !important;
-          transition: border-color 0.3s ease, box-shadow 0.3s ease;
+          transition: all 0.3s ease;
         }
-        input:focus, textarea:focus, select:focus {
-          border-color: #f59e0b !important;
-          box-shadow: 0 0 0 3px rgba(245,158,11,0.15) !important;
-          outline: none !important;
+        input:focus, textarea:focus {
+          outline: none;
+          border-color: rgba(201,168,76,0.6) !important;
+          background: rgba(201,168,76,0.05) !important;
         }
-        select option { background: #18181b; color: white; }
-        .feature-active {
-          background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(239,68,68,0.1));
-          border-color: rgba(245,158,11,0.4) !important;
+        input::placeholder, textarea::placeholder {
+          color: rgba(255,255,255,0.3);
         }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #09090b; }
-        ::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 3px; }
+
+        .scroll-indicator {
+          animation: fadeUp 2s ease 1.5s both;
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0A0E1A; }
+        ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 2px; }
+
+        section { scroll-margin-top: 80px; }
       `}</style>
 
-      {/* ── STICKY NAV ── */}
+      {/* ─── STICKY HEADER ─── */}
       <header
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-        style={{
-          background: scrollY > 60
-            ? "rgba(9,9,11,0.95)"
-            : "transparent",
-          backdropFilter: scrollY > 60 ? "blur(20px)" : "none",
-          borderBottom: scrollY > 60 ? "1px solid rgba(255,255,255,0.08)" : "none",
-        }}
+        className={`fixed top-0 left-0 right-0 z-50 font-body transition-all duration-500 ${
+          isScrolled ? "glass shadow-2xl shadow-black/50" : "bg-transparent"
+        }`}
+        style={{ borderBottom: isScrolled ? "1px solid rgba(201,168,76,0.15)" : "none" }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 crystal-gradient rounded-xl flex items-center justify-center text-xl font-bold shadow-lg">
-              D
+            <div className="w-8 h-8 relative">
+              <div className="absolute inset-0 border-2 border-[#C9A84C] rotate-45 transform"></div>
+              <div className="absolute inset-1 border border-[#C9A84C]/40 rotate-45 transform"></div>
             </div>
             <div>
-              <span className="display-font text-xl font-bold text-white">DemoShore</span>
-              <p className="text-xs text-zinc-500 -mt-0.5 tracking-widest uppercase">Commercial Real Estate</p>
+              <span className="font-display text-lg font-semibold tracking-widest text-white">TSNSHORE</span>
+              <div className="text-[9px] tracking-[0.3em] text-[#C9A84C] uppercase font-body">Commercial Real Estate</div>
             </div>
           </div>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
+          <nav className="hidden md:flex items-center gap-8">
+            {["About", "Features", "Properties", "Location", "Contact"].map((item) => (
               <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="nav-link text-sm text-zinc-300 hover:text-white transition-colors duration-200 tracking-wide"
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="nav-link text-sm tracking-widest uppercase text-white/70 hover:text-white transition-colors duration-300 font-body"
               >
-                {link}
+                {item}
               </a>
             ))}
           </nav>
 
+          {/* CTA */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:+15551234567" className="text-sm text-zinc-400 hover:text-amber-400 transition-colors">
-              +1 (555) 123-4567
-            </a>
             <a
               href="#contact"
-              className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-black text-sm font-semibold rounded-xl transition-all duration-200 hover:scale-105 shadow-lg shadow-amber-500/20"
+              className="px-6 py-2.5 text-sm tracking-widest uppercase font-semibold text-[#0A0E1A] gold-bg hover:bg-[#D4B85A] transition-all duration-300 font-body"
+              style={{ clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)" }}
             >
-              List Property
+              Contact Us
             </a>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Btn */}
           <button
-            className="md:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5"
+            className="md:hidden flex flex-col gap-1.5 p-2"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            <span className={`block w-6 h-px bg-[#C9A84C] transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`}></span>
+            <span className={`block w-4 h-px bg-[#C9A84C] transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`}></span>
+            <span className={`block w-6 h-px bg-[#C9A84C] transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}></span>
           </button>
         </div>
 
         {/* Mobile Menu */}
         {menuOpen && (
-          <div className="md:hidden bg-zinc-900 border-t border-zinc-800 px-6 py-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
+          <div className="md:hidden glass border-t border-[#C9A84C]/10 px-6 py-6 flex flex-col gap-4">
+            {["About", "Features", "Properties", "Location", "Contact"].map((item) => (
               <a
-                key={link}
-                href={`#${link.toLowerCase()}`}
-                className="text-zinc-300 hover:text-amber-400 transition-colors py-2 border-b border-zinc-800"
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-sm tracking-widest uppercase text-white/70 hover:text-[#C9A84C] transition-colors font-body"
                 onClick={() => setMenuOpen(false)}
               >
-                {link}
+                {item}
               </a>
             ))}
-            <a href="#contact" className="mt-2 px-5 py-3 bg-amber-500 text-black font-semibold rounded-xl text-center">
-              List Property
-            </a>
           </div>
         )}
       </header>
 
-      {/* ── HERO ── */}
+      {/* ─── HERO SECTION ─── */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg"
-        style={{ paddingTop: "80px" }}
+        className="relative min-h-screen flex items-center overflow-hidden"
+        style={{ background: "linear-gradient(135deg, #0A0E1A 0%, #0D1526 50%, #0A0E1A 100%)" }}
       >
-        {/* Background Image */}
-        <div
-          className="absolute inset-0 z-0"
-          style={{
-            backgroundImage: "url(https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1800&q=80)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            transform: `translateY(${scrollY * 0.3}px)`,
-            filter: "brightness(0.25)",
-          }}
-        />
+        {/* Background Grid */}
+        <div className="absolute inset-0 bg-grid opacity-40"></div>
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 z-0 bg-gradient-to-br from-zinc-950/80 via-transparent to-blue-950/40" />
+        {/* Ambient orbs */}
+        <div className="absolute top-1/4 right-1/3 w-96 h-96 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #C9A84C 0%, transparent 70%)", filter: "blur(60px)" }}></div>
+        <div className="absolute bottom-1/3 left-1/4 w-64 h-64 rounded-full opacity-8" style={{ background: "radial-gradient(circle, #4C9AC9 0%, transparent 70%)", filter: "blur(40px)" }}></div>
 
-        {/* Floating Decorative Blobs */}
-        <div className="hero-particle w-72 h-72 bg-amber-500 rounded-full top-20 -right-20 z-0" style={{ animationDelay: "0s" }} />
-        <div className="hero-particle w-48 h-48 bg-blue-500 rounded-full bottom-32 -left-16 z-0" style={{ animationDelay: "2s" }} />
-        <div className="hero-particle w-32 h-32 bg-purple-500 rounded-full top-1/2 right-1/4 z-0" style={{ animationDelay: "4s" }} />
+        {/* Parallax Images — right side mosaic */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/2 hidden lg:block" style={{ clipPath: "polygon(15% 0%, 100% 0%, 100% 100%, 0% 100%)" }}>
+          {/* Image 1 — top */}
+          <div
+            className="absolute top-0 right-0 w-full h-1/2"
+            style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&q=85&auto=format&fit=crop"
+              alt="Modern office building"
+              className="w-full h-full object-cover"
+              style={{ filter: "brightness(0.5) saturate(0.8)" }}
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,14,26,0.3) 0%, transparent 50%, rgba(10,14,26,0.6) 100%)" }}></div>
+          </div>
 
-        {/* Animated Grid Lines */}
-        <div className="absolute inset-0 z-0" style={{
-          backgroundImage: "radial-gradient(circle at 50% 50%, rgba(245,158,11,0.05) 0%, transparent 70%)"
-        }} />
+          {/* Image 2 — bottom */}
+          <div
+            className="absolute bottom-0 right-0 w-full h-1/2"
+            style={{ transform: `translateY(${scrollY * -0.1}px)` }}
+          >
+            <img
+              src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=85&auto=format&fit=crop"
+              alt="Premium office interior"
+              className="w-full h-full object-cover"
+              style={{ filter: "brightness(0.45) saturate(0.7)" }}
+            />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(10,14,26,0.4) 0%, transparent 50%, rgba(10,14,26,0.7) 100%)" }}></div>
+          </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center py-20">
-          {/* Left Content */}
-          <div className="slide-in">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-sm font-medium mb-8">
-              <span className="w-2 h-2 bg-amber-400 rounded-full pulse-ring" />
-              #1 Commercial Broker in Crystalshore
+          {/* Diagonal overlay to blend with left */}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to right, #0A0E1A 0%, rgba(10,14,26,0.4) 30%, transparent 60%)" }}></div>
+        </div>
+
+        {/* Mobile background */}
+        <div className="absolute inset-0 lg:hidden">
+          <img
+            src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1200&q=80&auto=format&fit=crop"
+            alt="Modern office"
+            className="w-full h-full object-cover"
+            style={{ filter: "brightness(0.25) saturate(0.6)" }}
+          />
+          <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(10,14,26,0.5) 0%, rgba(10,14,26,0.8) 100%)" }}></div>
+        </div>
+
+        {/* Hero Content */}
+        <div className="relative z-10 max-w-7xl mx-auto px-6 pt-32 pb-20 w-full">
+          <div className="max-w-2xl">
+            {/* Eyebrow */}
+            <div className="hero-animate flex items-center gap-3 mb-6">
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+              <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body font-medium">TSNshore, CA — Commercial Division</span>
             </div>
 
-            <h1 className="display-font text-5xl md:text-7xl font-black leading-tight mb-6">
+            {/* Headline */}
+            <h1 className="hero-animate-delay-1 font-display text-5xl md:text-7xl lg:text-8xl font-light leading-[1.0] mb-6">
               We know{" "}
-              <span className="gradient-text">Crystalshore</span>{" "}
-              commercial real estate.
+              <span className="italic">TSNshore</span>
+              <br />
+              <span className="shimmer-text font-semibold">commercial</span>
+              <br />
+              <span className="text-white/90">real estate.</span>
             </h1>
 
-            <p className="text-zinc-300 text-xl leading-relaxed mb-10 max-w-xl">
-              Specializing in office space, we are always looking to expand our offerings to meet the needs of growing companies.
+            {/* Description */}
+            <p className="hero-animate-delay-2 font-body text-white/60 text-lg leading-relaxed mb-10 max-w-lg">
+              Specializing in office space, we are always looking to expand our offerings to meet the needs of growing companies. From boutique suites to full-floor headquarters.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            {/* CTAs */}
+            <div className="hero-animate-delay-3 flex flex-wrap gap-4 items-center">
               <a
                 href="#contact"
-                className="group px-8 py-4 bg-amber-500 hover:bg-amber-400 text-black font-bold rounded-2xl transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-amber-500/30 flex items-center gap-2"
+                className="group relative px-8 py-4 overflow-hidden font-body text-sm tracking-widest uppercase font-semibold text-[#0A0E1A] transition-all duration-300"
+                style={{ background: "linear-gradient(135deg, #C9A84C, #D4B85A)" }}
               >
-                Contact Us
-                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                <span className="relative z-10">Contact Our Team</span>
+                <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
               </a>
               <a
-                href="#locations"
-                className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-semibold rounded-2xl transition-all duration-300 backdrop-blur-sm"
+                href="#properties"
+                className="group flex items-center gap-3 font-body text-sm tracking-widest uppercase text-white/60 hover:text-white transition-colors duration-300"
               >
-                Browse Listings
+                <span>View Properties</span>
+                <div className="w-8 h-px bg-current transition-all duration-300 group-hover:w-12"></div>
               </a>
             </div>
 
-            {/* Mini Stats */}
-            <div className="flex flex-wrap gap-6 mt-12 pt-10 border-t border-white/10">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="display-font text-2xl font-bold text-amber-400">{s.value}</div>
-                  <div className="text-xs text-zinc-500 mt-0.5">{s.label}</div>
+            {/* Stats strip */}
+            <div className="hero-animate-delay-3 mt-16 grid grid-cols-2 md:grid-cols-4 gap-6 pt-8 border-t border-white/10">
+              {stats.map((s, i) => (
+                <div key={i}>
+                  <div className="stat-number shimmer-text">{s.number}</div>
+                  <div className="font-body text-xs text-white/40 tracking-widest uppercase mt-1">{s.label}</div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Right — Property Card */}
-          <div className="hidden lg:block">
-            <div className="relative">
-              {/* Main Card */}
-              <div className="bg-zinc-900/80 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden shadow-2xl card-hover">
-                <div className="relative h-56 overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80"
-                    alt="Featured Property"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-amber-500 text-black text-xs font-bold rounded-full">FEATURED</span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />
-                </div>
-                <div className="p-6">
-                  <h3 className="display-font text-2xl font-bold mb-1">One Crystal Tower</h3>
-                  <p className="text-zinc-400 text-sm mb-4">📍 Crystalshore Financial District</p>
-                  <div className="grid grid-cols-3 gap-4 mb-5">
-                    {[["45,000", "Sq Ft"], ["$44", "Per Sq Ft"], ["Q2 2025", "Available"]].map(([v, l]) => (
-                      <div key={l} className="text-center p-3 bg-white/5 rounded-xl">
-                        <div className="font-bold text-white text-lg">{v}</div>
-                        <div className="text-zinc-500 text-xs">{l}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <button className="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-xl hover:opacity-90 transition-opacity">
-                    Schedule Viewing
-                  </button>
-                </div>
-              </div>
-
-              {/* Floating Badge */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 crystal-gradient rounded-2xl flex flex-col items-center justify-center shadow-2xl">
-                <div className="display-font text-2xl font-black">18</div>
-                <div className="text-xs text-blue-100">Years of Trust</div>
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-zinc-500 z-10">
-          <span className="text-xs tracking-widest uppercase">Scroll</span>
-          <div className="w-px h-10 bg-gradient-to-b from-zinc-500 to-transparent animate-pulse" />
+        {/* Scroll indicator */}
+        <div className="scroll-indicator absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+          <div className="text-[10px] tracking-[0.3em] uppercase text-white/30 font-body">Scroll</div>
+          <div className="w-px h-12 bg-gradient-to-b from-[#C9A84C] to-transparent"></div>
         </div>
       </section>
 
-      {/* ── ABOUT ── */}
-      <section id="about" className="py-32 bg-zinc-950 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
+      {/* ─── ABOUT SECTION ─── */}
+      <section id="about" className="py-32 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 opacity-5" style={{ background: "radial-gradient(circle, #C9A84C, transparent)", filter: "blur(80px)" }}></div>
 
         <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
-          {/* Image Grid */}
-          <div className="relative">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
-                <div className="card-hover rounded-2xl overflow-hidden h-48">
-                  <img src="https://images.unsplash.com/photo-1497366754035-f200968a7f80?w=400&q=80" alt="Office" className="w-full h-full object-cover" />
-                </div>
-                <div className="card-hover rounded-2xl overflow-hidden h-32">
-                  <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&q=80" alt="Interior" className="w-full h-full object-cover" />
-                </div>
-              </div>
-              <div className="space-y-4 mt-8">
-                <div className="card-hover rounded-2xl overflow-hidden h-32">
-                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&q=80" alt="Building" className="w-full h-full object-cover" />
-                </div>
-                <div className="card-hover rounded-2xl overflow-hidden h-48">
-                  <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=400&q=80" alt="City" className="w-full h-full object-cover" />
-                </div>
-              </div>
+          {/* Left — Image collage */}
+          <div className="relative h-[600px] hidden lg:block">
+            {/* Main image */}
+            <div className="absolute top-0 left-0 w-4/5 h-4/5 overflow-hidden" style={{ clipPath: "polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%)" }}>
+              <img
+                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=85&auto=format&fit=crop"
+                alt="TSNshore cityscape"
+                className="w-full h-full object-cover"
+                style={{ filter: "brightness(0.7) saturate(0.9)" }}
+              />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, transparent 60%, rgba(10,14,26,0.6) 100%)" }}></div>
             </div>
 
-            {/* Overlay Badge */}
-            <div className="absolute bottom-4 left-4 right-4 bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-2xl">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-amber-500 rounded-xl flex items-center justify-center text-2xl">🏆</div>
-                <div>
-                  <div className="font-bold">Top Brokerage 2024</div>
-                  <div className="text-zinc-400 text-sm">Crystalshore Chamber of Commerce</div>
-                </div>
-              </div>
+            {/* Accent image */}
+            <div className="absolute bottom-0 right-0 w-2/5 h-2/5 overflow-hidden border-2 border-[#C9A84C]/30">
+              <img
+                src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&q=85&auto=format&fit=crop"
+                alt="Office meeting room"
+                className="w-full h-full object-cover"
+                style={{ filter: "brightness(0.6) saturate(0.8)" }}
+              />
             </div>
+
+            {/* Floating badge */}
+            <div className="absolute top-1/2 right-4 -translate-y-1/2 glass-gold px-6 py-5 text-center floating">
+              <div className="font-display text-4xl font-light text-[#C9A84C]">18+</div>
+              <div className="font-body text-xs tracking-widest uppercase text-white/50 mt-1">Years<br />Excellence</div>
+            </div>
+
+            {/* Gold line accent */}
+            <div className="absolute bottom-1/3 left-0 w-12 h-px bg-[#C9A84C]"></div>
           </div>
 
-          {/* Content */}
+          {/* Right — Content */}
           <div>
-            <div className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4">About Crystalshore CRE</div>
-            <h2 className="display-font text-5xl font-black leading-tight mb-6">
-              Rooted in Crystalshore.{" "}
-              <span className="gradient-text">Built for your business.</span>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+              <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body">Our Story</span>
+            </div>
+
+            <h2 className="font-display text-5xl md:text-6xl font-light leading-tight mb-8">
+              Built on trust,<br />
+              <span className="italic text-[#C9A84C]">driven by results.</span>
             </h2>
-            <p className="text-zinc-300 text-lg leading-relaxed mb-6">
-              Since 2006, Crystalshore Commercial Real Estate has been the go-to partner for companies seeking premium office environments in one of the region's most dynamic markets. We combine hyper-local market intelligence with a client-first approach.
-            </p>
-            <p className="text-zinc-400 leading-relaxed mb-10">
-              Whether you're a startup seeking your first headquarters, or an enterprise rightsizing across multiple floors, our team has the relationships, data, and negotiating power to secure the ideal space — at the right price, on the right terms.
+
+            <p className="font-body text-white/60 text-base leading-relaxed mb-6">
+              Since 2006, TSNshore Commercial Real Estate has been the premier brokerage for companies seeking to establish or expand their presence along the TSNshore corridor. We've helped over 340 businesses find their ideal commercial home.
             </p>
 
-            <div className="grid grid-cols-2 gap-4">
-              {[
-                { icon: "🔍", text: "Market Analysis" },
-                { icon: "📋", text: "Lease Negotiation" },
-                { icon: "🏗️", text: "Tenant Improvement" },
-                { icon: "📊", text: "Portfolio Strategy" },
-              ].map((item) => (
-                <div key={item.text} className="flex items-center gap-3 p-4 bg-white/5 border border-white/5 hover:border-amber-500/30 rounded-xl transition-colors group">
-                  <span className="text-2xl">{item.icon}</span>
-                  <span className="font-medium text-zinc-200 group-hover:text-white transition-colors">{item.text}</span>
+            <p className="font-body text-white/50 text-base leading-relaxed mb-10">
+              Our team of 24 licensed commercial specialists brings deep local expertise and national-caliber deal-making skills to every engagement — whether you're a startup securing your first office or an enterprise renegotiating a multi-floor lease.
+            </p>
+
+            {/* Pillars */}
+            <div className="grid grid-cols-3 gap-4">
+              {["Local Expertise", "Transparent Deals", "Long-Term Partners"].map((p, i) => (
+                <div key={i} className="glass px-4 py-4 text-center">
+                  <div className="text-[#C9A84C] text-2xl mb-2">{["◈", "◇", "◉"][i]}</div>
+                  <div className="font-body text-xs text-white/60 tracking-wide">{p}</div>
                 </div>
               ))}
             </div>
@@ -473,353 +501,446 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FEATURES ── */}
-      <section id="features" className="py-32 bg-zinc-900 relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-50" />
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent" />
-
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="text-center mb-16">
-            <div className="text-blue-400 text-sm font-semibold tracking-widest uppercase mb-4">What We Offer</div>
-            <h2 className="display-font text-5xl font-black mb-4">
-              Services that{" "}
-              <span className="gradient-text">set us apart</span>
+      {/* ─── FEATURES SECTION ─── */}
+      <section id="features" className="py-32 relative" style={{ background: "linear-gradient(180deg, transparent, rgba(201,168,76,0.03), transparent)" }}>
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+              <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body">What We Offer</span>
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+            </div>
+            <h2 className="font-display text-5xl md:text-6xl font-light">
+              Services built for <span className="italic text-[#C9A84C]">ambition.</span>
             </h2>
-            <p className="text-zinc-400 text-lg max-w-xl mx-auto">
-              End-to-end commercial real estate solutions designed around your company's ambition.
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {features.map((f, i) => (
-              <div
-                key={f.title}
-                className={`p-6 rounded-2xl border cursor-pointer transition-all duration-300 card-hover ${
-                  activeFeature === i
-                    ? "feature-active border-amber-500/40"
-                    : "bg-white/3 border-white/5 hover:border-white/10"
-                }`}
-                onClick={() => setActiveFeature(i)}
-              >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${f.color} flex items-center justify-center text-2xl mb-5 shadow-lg`}>
-                  {f.icon}
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Tabs */}
+            <div className="space-y-6">
+              {features.map((f, i) => (
+                <div
+                  key={i}
+                  className={`feature-tab ${activeFeature === i ? "active" : ""}`}
+                  onClick={() => setActiveFeature(i)}
+                >
+                  <div className="flex items-start gap-4 py-4">
+                    <span
+                      className="text-2xl mt-0.5 transition-all duration-300"
+                      style={{ color: activeFeature === i ? f.color : "rgba(255,255,255,0.2)" }}
+                    >
+                      {f.icon}
+                    </span>
+                    <div>
+                      <h3
+                        className="font-display text-xl font-semibold mb-2 transition-colors duration-300"
+                        style={{ color: activeFeature === i ? "white" : "rgba(255,255,255,0.4)" }}
+                      >
+                        {f.title}
+                      </h3>
+                      {activeFeature === i && (
+                        <p className="font-body text-white/50 text-sm leading-relaxed">{f.desc}</p>
+                      )}
+                    </div>
+                  </div>
                 </div>
-                <h3 className="font-bold text-lg mb-2">{f.title}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed mb-5">{f.desc}</p>
-                <div className="flex items-end gap-1">
-                  <span className={`display-font text-3xl font-black bg-gradient-to-r ${f.color} bg-clip-text text-transparent`}>{f.stat}</span>
-                  <span className="text-zinc-500 text-sm pb-1">{f.statLabel}</span>
+              ))}
+            </div>
+
+            {/* Feature Display */}
+            <div className="relative h-96 lg:h-auto lg:min-h-[480px]">
+              <div
+                className="absolute inset-0 glass rounded-none"
+                style={{ borderLeft: `2px solid ${features[activeFeature].color}` }}
+              >
+                <div className="p-12 h-full flex flex-col justify-between">
+                  <div>
+                    <div
+                      className="text-6xl mb-6 transition-all duration-500"
+                      style={{ color: features[activeFeature].color }}
+                    >
+                      {features[activeFeature].icon}
+                    </div>
+                    <h3 className="font-display text-4xl font-light mb-4 text-white">
+                      {features[activeFeature].title}
+                    </h3>
+                    <p className="font-body text-white/60 text-base leading-relaxed">
+                      {features[activeFeature].desc}
+                    </p>
+                  </div>
+
+                  <div>
+                    {/* Progress bar */}
+                    <div className="flex gap-2 mt-8">
+                      {features.map((_, i) => (
+                        <div
+                          key={i}
+                          className="h-0.5 flex-1 transition-all duration-500"
+                          style={{ background: i === activeFeature ? features[activeFeature].color : "rgba(255,255,255,0.1)" }}
+                        />
+                      ))}
+                    </div>
+                    <div className="mt-4 flex justify-between font-body text-xs text-white/30 tracking-widest uppercase">
+                      <span>0{activeFeature + 1}</span>
+                      <span>of 04</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
 
-          {/* Process Strip */}
-          <div className="bg-zinc-950 border border-white/5 rounded-3xl p-8 md:p-12">
-            <div className="grid md:grid-cols-4 gap-6 items-start relative">
-              {[
-                { step: "01", title: "Discovery Call", desc: "We learn your space, timeline, and growth goals." },
-                { step: "02", title: "Market Search", desc: "We surface listings that match your criteria — curated, not generic." },
-                { step: "03", title: "Tour & Negotiate", desc: "Accompany you on tours and negotiate favorable lease terms." },
-                { step: "04", title: "Move-In Ready", desc: "Coordinate TI, legal, and logistics so you open on time." },
-              ].map((p, i) => (
-                <div key={p.step} className="relative text-center md:text-left">
-                  <div className="inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-bold mb-4">
-                    STEP {p.step}
-                  </div>
-                  <h4 className="font-bold text-lg mb-2">{p.title}</h4>
-                  <p className="text-zinc-400 text-sm">{p.desc}</p>
-                  {i < 3 && (
-                    <div className="hidden md:block absolute top-3 -right-3 text-zinc-600 text-2xl">→</div>
-                  )}
-                </div>
-              ))}
+              {/* Background glow */}
+              <div
+                className="absolute inset-0 opacity-5 transition-all duration-700"
+                style={{ background: `radial-gradient(circle at 30% 50%, ${features[activeFeature].color}, transparent)`, filter: "blur(40px)" }}
+              />
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── LOCATIONS ── */}
-      <section id="locations" className="py-32 bg-zinc-950 relative">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent" />
+      {/* ─── PROPERTIES SECTION ─── */}
+      <section id="properties" className="py-32 relative bg-grid">
+        <div className="absolute inset-0 opacity-60" style={{ background: "linear-gradient(180deg, #0A0E1A 0%, transparent 20%, transparent 80%, #0A0E1A 100%)" }}></div>
 
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16">
             <div>
-              <div className="text-emerald-400 text-sm font-semibold tracking-widest uppercase mb-4">Prime Locations</div>
-              <h2 className="display-font text-5xl font-black">
-                Find your{" "}
-                <span className="gradient-text">perfect space</span>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="h-px w-12 bg-[#C9A84C]"></div>
+                <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body">Current Listings</span>
+              </div>
+              <h2 className="font-display text-5xl md:text-6xl font-light">
+                Featured<br />
+                <span className="italic text-[#C9A84C]">Properties.</span>
               </h2>
             </div>
-            <a href="#contact" className="px-6 py-3 border border-white/10 hover:border-amber-500/50 text-white rounded-xl transition-colors text-sm font-medium self-start md:self-auto">
-              View All Listings →
+            <a href="#contact" className="mt-6 md:mt-0 font-body text-sm tracking-widest uppercase text-white/40 hover:text-[#C9A84C] transition-colors flex items-center gap-3 group">
+              View All Listings
+              <div className="h-px w-8 bg-current transition-all duration-300 group-hover:w-16"></div>
             </a>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {locations.map((loc) => (
-              <div key={loc.name} className="group bg-zinc-900 border border-white/5 hover:border-white/15 rounded-3xl overflow-hidden card-hover">
-                <div className="relative h-52 overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-6">
+            {properties.map((p, i) => (
+              <div key={i} className="card-hover group relative glass overflow-hidden cursor-pointer">
+                {/* Property image */}
+                <div className="h-52 overflow-hidden relative">
                   <img
-                    src={loc.img}
-                    alt={loc.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    src={[
+                      "https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?w=600&q=80&auto=format&fit=crop",
+                      "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80&auto=format&fit=crop",
+                      "https://images.unsplash.com/photo-1554435493-93422e8d1c46?w=600&q=80&auto=format&fit=crop",
+                    ][i]}
+                    alt={p.name}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    style={{ filter: "brightness(0.5) saturate(0.7)" }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 to-transparent" />
-                  <span className={`absolute top-4 left-4 px-3 py-1 text-xs font-black rounded-full ${
-                    loc.tag === "HOT" ? "bg-red-500 text-white" :
-                    loc.tag === "NEW" ? "bg-emerald-500 text-white" :
-                    "bg-blue-500 text-white"
-                  }`}>
-                    {loc.tag}
-                  </span>
-                </div>
-                <div className="p-6">
-                  <div className="text-xs text-zinc-500 uppercase tracking-wide mb-1">{loc.type}</div>
-                  <h3 className="font-bold text-xl mb-3">{loc.name}</h3>
-                  <div className="flex items-center justify-between text-sm mb-5">
-                    <span className="text-zinc-400">{loc.sqft}</span>
-                    <span className="text-amber-400 font-semibold">{loc.price}</span>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, transparent 50%, rgba(10,14,26,0.8) 100%)" }}></div>
+
+                  {/* Tag */}
+                  <div
+                    className="absolute top-4 left-4 px-3 py-1 text-xs tracking-widest uppercase font-semibold font-body"
+                    style={{
+                      background: p.tag === "Hot" ? "#C94C4C" : p.tag === "Premium" ? "#C9A84C" : "#4C9AC9",
+                      color: "#0A0E1A",
+                    }}
+                  >
+                    {p.tag}
                   </div>
-                  <button className="w-full py-3 bg-white/5 hover:bg-amber-500 hover:text-black border border-white/5 hover:border-amber-500 text-white font-semibold rounded-xl transition-all duration-300">
-                    Request Info
-                  </button>
                 </div>
+
+                {/* Card body */}
+                <div className="p-6">
+                  <div className="font-body text-xs tracking-widest uppercase text-[#C9A84C] mb-2">{p.type}</div>
+                  <h3 className="font-display text-xl font-semibold text-white mb-4">{p.name}</h3>
+
+                  <div className="grid grid-cols-2 gap-y-3 mb-6">
+                    {[
+                      { l: "Size", v: `${p.sqft} sqft` },
+                      { l: "Asking", v: p.price },
+                      { l: "Floors", v: p.floors },
+                      { l: "Available", v: p.available },
+                    ].map((item, j) => (
+                      <div key={j}>
+                        <div className="font-body text-xs text-white/30 uppercase tracking-widest">{item.l}</div>
+                        <div className="font-body text-sm text-white/80 mt-0.5">{item.v}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div
+                    className="flex items-center gap-2 font-body text-xs tracking-widest uppercase text-[#C9A84C] group-hover:gap-4 transition-all duration-300"
+                  >
+                    <span>Request Tour</span>
+                    <div className="h-px w-6 bg-[#C9A84C]"></div>
+                  </div>
+                </div>
+
+                {/* Hover border effect */}
+                <div className="absolute bottom-0 left-0 right-0 h-px bg-[#C9A84C] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
               </div>
             ))}
           </div>
+        </div>
+      </section>
 
-          {/* Map Placeholder */}
-          <div className="mt-12 rounded-3xl overflow-hidden border border-white/5 relative h-72 shimmer bg-zinc-900 flex items-center justify-center">
-            <div className="text-center z-10">
-              <div className="text-5xl mb-3">🗺️</div>
-              <p className="text-zinc-400 text-sm">Interactive map — 340 listings across Crystalshore</p>
-              <button className="mt-4 px-6 py-2.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-xl text-sm transition-colors">
-                Open Full Map
-              </button>
+      {/* ─── LOCATION SECTION ─── */}
+      <section id="location" className="py-32 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20 items-center">
+          {/* Content */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+              <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body">Where We Operate</span>
+            </div>
+            <h2 className="font-display text-5xl md:text-6xl font-light mb-8">
+              The heart of<br />
+              <span className="italic text-[#C9A84C]">TSNshore.</span>
+            </h2>
+            <p className="font-body text-white/60 text-base leading-relaxed mb-10">
+              Strategically positioned in TSNshore's Central Business District, our offices and listings span the most sought-after commercial corridors — from the waterfront tech campus to the heritage financial quarter.
+            </p>
+
+            {/* Districts */}
+            <div className="space-y-4">
+              {[
+                { name: "Central Business District", props: "142 active listings", color: "#C9A84C" },
+                { name: "Waterfront Innovation Park", props: "67 active listings", color: "#4C9AC9" },
+                { name: "Heritage Financial Quarter", props: "89 active listings", color: "#C94C7A" },
+                { name: "North Shore Tech Corridor", props: "54 active listings", color: "#4CC97A" },
+              ].map((d, i) => (
+                <div key={i} className="flex items-center justify-between py-4 border-b border-white/5 group cursor-pointer hover:border-[#C9A84C]/20 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="w-2 h-2 rounded-full map-dot" style={{ background: d.color, boxShadow: `0 0 0 0 ${d.color}66` }}></div>
+                    <span className="font-body text-white/70 group-hover:text-white transition-colors">{d.name}</span>
+                  </div>
+                  <span className="font-body text-xs text-white/30 tracking-widest">{d.props}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ── TESTIMONIALS ── */}
-      <section className="py-24 bg-zinc-900 relative overflow-hidden">
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 50% 0%, rgba(245,158,11,0.07) 0%, transparent 70%)"
-        }} />
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="text-center mb-14">
-            <div className="text-amber-400 text-sm font-semibold tracking-widest uppercase mb-4">Client Stories</div>
-            <h2 className="display-font text-4xl font-black">What our clients say</h2>
-          </div>
+          {/* Map visualization */}
+          <div className="relative h-[500px]">
+            <div className="absolute inset-0 glass overflow-hidden">
+              {/* Stylized map grid */}
+              <div className="absolute inset-0 opacity-20" style={{
+                backgroundImage: "linear-gradient(rgba(201,168,76,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(201,168,76,0.3) 1px, transparent 1px)",
+                backgroundSize: "40px 40px"
+              }}></div>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Sarah Chen",
-                role: "CEO, NovaTech Inc.",
-                quote: "Crystalshore CRE found us a stunning HQ in the Financial District within 6 weeks. Their negotiation saved us 18% on the lease. Extraordinary service.",
-                avatar: "SC",
-                color: "from-blue-500 to-indigo-500",
-              },
-              {
-                name: "Marcus Rivera",
-                role: "COO, Pulse Analytics",
-                quote: "We expanded from 3,000 to 22,000 sq ft seamlessly. Their team managed every detail — from buildout coordination to move-in day.",
-                avatar: "MR",
-                color: "from-amber-500 to-orange-500",
-              },
-              {
-                name: "Lena Hartmann",
-                role: "Founder, Bloom Ventures",
-                quote: "As a first-time commercial tenant, I was nervous. Crystalshore CRE guided us with patience and expertise. We couldn't be happier with our space.",
-                avatar: "LH",
-                color: "from-emerald-500 to-teal-500",
-              },
-            ].map((t) => (
-              <div key={t.name} className="bg-zinc-950 border border-white/5 hover:border-white/10 rounded-3xl p-8 card-hover">
-                <div className="text-amber-400 text-3xl mb-4">"</div>
-                <p className="text-zinc-300 leading-relaxed mb-6 text-sm">{t.quote}</p>
-                <div className="flex items-center gap-4 pt-4 border-t border-white/5">
-                  <div className={`w-12 h-12 rounded-full bg-gradient-to-br ${t.color} flex items-center justify-center font-bold text-sm text-white`}>
-                    {t.avatar}
+              {/* Decorative map elements */}
+              <svg width="100%" height="100%" viewBox="0 0 500 500" className="absolute inset-0">
+                {/* Streets */}
+                <line x1="0" y1="250" x2="500" y2="250" stroke="rgba(201,168,76,0.15)" strokeWidth="1.5"/>
+                <line x1="250" y1="0" x2="250" y2="500" stroke="rgba(201,168,76,0.15)" strokeWidth="1.5"/>
+                <line x1="0" y1="150" x2="500" y2="300" stroke="rgba(201,168,76,0.08)" strokeWidth="1"/>
+                <line x1="0" y1="350" x2="350" y2="100" stroke="rgba(201,168,76,0.08)" strokeWidth="1"/>
+                <line x1="100" y1="0" x2="400" y2="500" stroke="rgba(201,168,76,0.06)" strokeWidth="1"/>
+
+                {/* Blocks */}
+                <rect x="80" y="80" width="120" height="80" fill="none" stroke="rgba(201,168,76,0.15)" strokeWidth="1"/>
+                <rect x="300" y="80" width="100" height="60" fill="none" stroke="rgba(76,154,201,0.15)" strokeWidth="1"/>
+                <rect x="80" y="280" width="80" height="100" fill="none" stroke="rgba(201,76,122,0.15)" strokeWidth="1"/>
+                <rect x="280" y="300" width="140" height="90" fill="none" stroke="rgba(76,201,122,0.15)" strokeWidth="1"/>
+                <rect x="180" y="180" width="140" height="100" fill="rgba(201,168,76,0.05)" stroke="rgba(201,168,76,0.2)" strokeWidth="1"/>
+
+                {/* Location pins */}
+                {[
+                  { x: 140, y: 120, color: "#C9A84C", r: 6 },
+                  { x: 350, y: 110, color: "#4C9AC9", r: 5 },
+                  { x: 120, y: 330, color: "#C94C7A", r: 5 },
+                  { x: 350, y: 345, color: "#4CC97A", r: 4 },
+                ].map((pin, i) => (
+                  <g key={i}>
+                    <circle cx={pin.x} cy={pin.y} r={pin.r * 3} fill={pin.color} opacity="0.1"/>
+                    <circle cx={pin.x} cy={pin.y} r={pin.r} fill={pin.color} opacity="0.9"/>
+                  </g>
+                ))}
+
+                {/* Waterfront */}
+                <path d="M 0 420 Q 100 400 200 430 Q 300 460 400 440 L 500 460 L 500 500 L 0 500 Z" fill="rgba(76,154,201,0.08)"/>
+                <text x="200" y="475" fill="rgba(76,154,201,0.4)" fontSize="9" fontFamily="DM Sans" letterSpacing="2" textAnchor="middle">TSNSHORE BAY</text>
+              </svg>
+
+              {/* HQ Marker */}
+              <div className="absolute" style={{ top: "44%", left: "47%", transform: "translate(-50%, -50%)" }}>
+                <div className="relative">
+                  <div className="absolute -inset-4 rounded-full bg-[#C9A84C] opacity-10 animate-ping"></div>
+                  <div className="w-4 h-4 rounded-full bg-[#C9A84C] border-2 border-white relative z-10"></div>
+                  <div className="absolute top-6 left-1/2 -translate-x-1/2 whitespace-nowrap glass-gold px-3 py-1">
+                    <span className="font-body text-xs text-[#C9A84C] tracking-widest uppercase">Our HQ</span>
                   </div>
-                  <div>
-                    <div className="font-semibold">{t.name}</div>
-                    <div className="text-zinc-500 text-xs">{t.role}</div>
-                  </div>
-                  <div className="ml-auto text-amber-400 text-sm">★★★★★</div>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ── CONTACT ── */}
-      <section id="contact" className="py-32 bg-zinc-950 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent" />
-        <div className="absolute inset-0" style={{
-          background: "radial-gradient(ellipse at 80% 50%, rgba(139,92,246,0.05) 0%, transparent 60%)"
-        }} />
-
-        <div className="max-w-7xl mx-auto px-6 relative">
-          <div className="grid lg:grid-cols-2 gap-20 items-start">
-            {/* Left */}
-            <div>
-              <div className="text-purple-400 text-sm font-semibold tracking-widest uppercase mb-4">Get In Touch</div>
-              <h2 className="display-font text-5xl font-black leading-tight mb-6">
-                Let's find your{" "}
-                <span className="gradient-text">ideal space.</span>
-              </h2>
-              <p className="text-zinc-400 text-lg leading-relaxed mb-10">
-                Tell us about your company and what you're looking for. Our advisors respond within one business hour.
-              </p>
-
-              <div className="space-y-5">
+              {/* Legend */}
+              <div className="absolute bottom-4 left-4 glass px-4 py-3 space-y-2">
                 {[
-                  { icon: "📍", label: "Office", value: "200 Crystal Tower, Suite 1800\nCrystalshore, CS 10001" },
-                  { icon: "📞", label: "Phone", value: "+1 (555) 123-4567" },
-                  { icon: "✉️", label: "Email", value: "hello@crystalshorecre.com" },
-                  { icon: "⏰", label: "Hours", value: "Mon–Fri, 8:00 AM – 7:00 PM" },
-                ].map((c) => (
-                  <div key={c.label} className="flex gap-4 p-5 bg-white/3 border border-white/5 hover:border-white/10 rounded-2xl transition-colors group">
-                    <span className="text-2xl">{c.icon}</span>
-                    <div>
-                      <div className="text-xs text-zinc-500 uppercase tracking-wide mb-0.5">{c.label}</div>
-                      <div className="text-zinc-200 font-medium whitespace-pre-line">{c.value}</div>
-                    </div>
+                  { color: "#C9A84C", label: "CBD" },
+                  { color: "#4C9AC9", label: "Waterfront" },
+                  { color: "#C94C7A", label: "Heritage" },
+                  { color: "#4CC97A", label: "North Shore" },
+                ].map((l, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full" style={{ background: l.color }}></div>
+                    <span className="font-body text-xs text-white/40">{l.label}</span>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Right — Form */}
-            <div className="bg-zinc-900 border border-white/8 rounded-3xl p-8 md:p-10">
-              {submitted ? (
-                <div className="text-center py-16">
-                  <div className="text-7xl mb-6">🎉</div>
-                  <h3 className="display-font text-3xl font-bold mb-3">Message Received!</h3>
-                  <p className="text-zinc-400">One of our advisors will be in touch within 1 business hour.</p>
-                  <button
-                    className="mt-8 px-6 py-3 bg-amber-500 text-black font-semibold rounded-xl"
-                    onClick={() => setSubmitted(false)}
-                  >
-                    Send Another
-                  </button>
+      {/* ─── CONTACT SECTION ─── */}
+      <section id="contact" className="py-32 relative" style={{ background: "linear-gradient(180deg, transparent, rgba(201,168,76,0.04))" }}>
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-20">
+          {/* Left info */}
+          <div>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="h-px w-12 bg-[#C9A84C]"></div>
+              <span className="text-[#C9A84C] text-xs tracking-[0.4em] uppercase font-body">Get In Touch</span>
+            </div>
+            <h2 className="font-display text-5xl md:text-6xl font-light mb-8">
+              Let's find your<br />
+              <span className="italic text-[#C9A84C]">perfect space.</span>
+            </h2>
+            <p className="font-body text-white/50 text-base leading-relaxed mb-12">
+              Whether you're seeking your first office or restructuring a large portfolio, our team is ready to guide you through every step of the commercial leasing process.
+            </p>
+
+            {/* Contact cards */}
+            <div className="space-y-4">
+              {[
+                { icon: "◎", label: "Visit Us", value: "One Harbor Plaza, Suite 2200\nTSNshore, CA 94110" },
+                { icon: "◉", label: "Call Us", value: "+1 (415) 888-2400\nMon–Fri, 8am–6pm PST" },
+                { icon: "◈", label: "Email Us", value: "hello@TSNshore.re\nResponse within 2 hours" },
+              ].map((c, i) => (
+                <div key={i} className="flex gap-4 p-5 glass group hover:glass-gold transition-all duration-300 cursor-pointer">
+                  <span className="text-[#C9A84C] text-xl mt-0.5">{c.icon}</span>
+                  <div>
+                    <div className="font-body text-xs tracking-widest uppercase text-white/30 mb-1">{c.label}</div>
+                    <div className="font-body text-sm text-white/70 whitespace-pre-line">{c.value}</div>
+                  </div>
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <h3 className="display-font text-2xl font-bold mb-6">Schedule a Consultation</h3>
+              ))}
+            </div>
+          </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="text-xs text-zinc-400 uppercase tracking-wide mb-2 block">Full Name *</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="Jane Smith"
-                        className="w-full px-4 py-3 rounded-xl text-sm"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      />
-                    </div>
-                    <div>
-                      <label className="text-xs text-zinc-400 uppercase tracking-wide mb-2 block">Work Email *</label>
-                      <input
-                        type="email"
-                        required
-                        placeholder="jane@company.com"
-                        className="w-full px-4 py-3 rounded-xl text-sm"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      />
-                    </div>
-                  </div>
+          {/* Right — form */}
+          <div className="glass-gold p-10">
+            <h3 className="font-display text-2xl font-light mb-8 text-white">
+              Send us a message
+            </h3>
 
-                  <div>
-                    <label className="text-xs text-zinc-400 uppercase tracking-wide mb-2 block">I'm interested in</label>
-                    <select
-                      className="w-full px-4 py-3 rounded-xl text-sm"
-                      value={formData.interest}
-                      onChange={(e) => setFormData({ ...formData, interest: e.target.value })}
-                    >
-                      <option value="office">Office Space</option>
-                      <option value="cowork">Co-Working / Flex</option>
-                      <option value="retail">Retail</option>
-                      <option value="investment">Investment Property</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+            <div className="space-y-5">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block font-body text-xs tracking-widest uppercase text-white/40 mb-2">Full Name</label>
+                  <input
+                    type="text"
+                    placeholder="Jane Smith"
+                    className="w-full px-4 py-3 text-sm font-body rounded-none"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block font-body text-xs tracking-widest uppercase text-white/40 mb-2">Email</label>
+                  <input
+                    type="email"
+                    placeholder="jane@company.com"
+                    className="w-full px-4 py-3 text-sm font-body rounded-none"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+              </div>
 
-                  <div>
-                    <label className="text-xs text-zinc-400 uppercase tracking-wide mb-2 block">Tell us more</label>
-                    <textarea
-                      rows={4}
-                      placeholder="Company size, preferred location, timeline, budget range..."
-                      className="w-full px-4 py-3 rounded-xl text-sm resize-none"
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    />
-                  </div>
+              <div>
+                <label className="block font-body text-xs tracking-widest uppercase text-white/40 mb-2">Company</label>
+                <input
+                  type="text"
+                  placeholder="Your Company Name"
+                  className="w-full px-4 py-3 text-sm font-body rounded-none"
+                />
+              </div>
 
-                  <button
-                    type="submit"
-                    className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-black font-bold rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-amber-500/20 text-lg"
-                  >
-                    Send Message →
-                  </button>
+              <div>
+                <label className="block font-body text-xs tracking-widest uppercase text-white/40 mb-2">Space Requirements</label>
+                <select className="w-full px-4 py-3 text-sm font-body rounded-none" style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" }}>
+                  <option value="">Select size range</option>
+                  <option>Under 2,000 sqft</option>
+                  <option>2,000 – 5,000 sqft</option>
+                  <option>5,000 – 15,000 sqft</option>
+                  <option>15,000+ sqft</option>
+                </select>
+              </div>
 
-                  <p className="text-center text-zinc-600 text-xs">
-                    We respond within 1 business hour · No spam, ever.
-                  </p>
-                </form>
-              )}
+              <div>
+                <label className="block font-body text-xs tracking-widest uppercase text-white/40 mb-2">Message</label>
+                <textarea
+                  rows={4}
+                  placeholder="Tell us about your ideal space, timeline, and any specific requirements..."
+                  className="w-full px-4 py-3 text-sm font-body rounded-none resize-none"
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                />
+              </div>
+
+              <button
+                className="w-full py-4 font-body text-sm tracking-widest uppercase font-semibold text-[#0A0E1A] transition-all duration-300 hover:brightness-110 active:scale-[0.99]"
+                style={{ background: "linear-gradient(135deg, #C9A84C, #D4B85A)" }}
+              >
+                Submit Inquiry →
+              </button>
+
+              <p className="font-body text-xs text-white/30 text-center">
+                By submitting, you agree to our Privacy Policy. We never share your data.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-zinc-900 border-t border-white/5 py-16">
+      {/* ─── FOOTER ─── */}
+      <footer className="pt-20 pb-8 border-t border-white/5">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-10 mb-14">
+          {/* Top row */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-16">
             {/* Brand */}
-            <div className="md:col-span-1">
+            <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 crystal-gradient rounded-xl flex items-center justify-center text-xl font-bold">C</div>
-                <span className="display-font text-xl font-bold">Crystalshore</span>
+                <div className="w-6 h-6 relative flex-shrink-0">
+                  <div className="absolute inset-0 border-2 border-[#C9A84C] rotate-45 transform"></div>
+                </div>
+                <span className="font-display text-lg tracking-widest text-white">TSNSHORE</span>
               </div>
-              <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                Crystalshore's premier commercial real estate firm since 2006.
+              <p className="font-body text-xs text-white/30 leading-relaxed mb-6">
+                TSNshore's premier commercial real estate advisory, since 2006.
               </p>
               <div className="flex gap-3">
-                {["🐦", "💼", "📘", "📸"].map((icon, i) => (
-                  <button
-                    key={i}
-                    className="w-9 h-9 bg-white/5 hover:bg-amber-500/20 border border-white/5 hover:border-amber-500/30 rounded-xl flex items-center justify-center text-base transition-all"
-                  >
-                    {icon}
-                  </button>
+                {["Li", "Tw", "Ig"].map((s, i) => (
+                  <div key={i} className="w-8 h-8 glass flex items-center justify-center text-white/40 hover:text-[#C9A84C] hover:border-[#C9A84C]/30 transition-colors cursor-pointer font-body text-xs">
+                    {s}
+                  </div>
                 ))}
               </div>
             </div>
 
             {/* Links */}
             {[
-              { title: "Services", links: ["Office Leasing", "Tenant Representation", "Investment Sales", "Property Management", "Market Research"] },
-              { title: "Company", links: ["About Us", "Our Team", "Careers", "Press", "Contact"] },
-              { title: "Resources", links: ["Market Reports", "Lease Guide", "Calculator", "Blog", "FAQs"] },
-            ].map((col) => (
-              <div key={col.title}>
-                <h4 className="font-bold text-sm uppercase tracking-widest mb-5 text-zinc-300">{col.title}</h4>
-                <ul className="space-y-3">
-                  {col.links.map((link) => (
-                    <li key={link}>
-                      <a href="#" className="text-zinc-500 hover:text-amber-400 text-sm transition-colors">
-                        {link}
-                      </a>
+              { title: "Services", links: ["Office Leasing", "Tenant Rep", "Investment Sales", "Portfolio Mgmt", "Market Reports"] },
+              { title: "Company", links: ["About Us", "Our Team", "Case Studies", "News & Press", "Careers"] },
+              { title: "Resources", links: ["Market Intel", "Lease Guide", "Blog", "FAQs", "Privacy Policy"] },
+            ].map((col, i) => (
+              <div key={i}>
+                <h4 className="font-body text-xs tracking-[0.3em] uppercase text-[#C9A84C] mb-4">{col.title}</h4>
+                <ul className="space-y-2">
+                  {col.links.map((link, j) => (
+                    <li key={j}>
+                      <a href="#" className="font-body text-xs text-white/40 hover:text-white transition-colors">{link}</a>
                     </li>
                   ))}
                 </ul>
@@ -827,12 +948,13 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-zinc-600 text-sm">
-            <p>© 2025 Crystalshore Commercial Real Estate. All rights reserved.</p>
+          {/* Bottom row */}
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4">
+            <span className="font-body text-xs text-white/20">© 2025 TSNshore Commercial Real Estate. All rights reserved. CA DRE #01234567</span>
             <div className="flex gap-6">
-              <a href="#" className="hover:text-zinc-400 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-zinc-400 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-zinc-400 transition-colors">Cookie Settings</a>
+              {["Terms", "Privacy", "Cookies"].map((item, i) => (
+                <a key={i} href="#" className="font-body text-xs text-white/20 hover:text-white/50 transition-colors">{item}</a>
+              ))}
             </div>
           </div>
         </div>
