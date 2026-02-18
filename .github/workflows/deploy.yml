@@ -1,4 +1,4 @@
-name: Deploy Real Estate to GitHub Pages
+name: Deploy RealEstate to GitHub Pages
 
 on:
   push:
